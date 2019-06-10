@@ -143,6 +143,7 @@ up: network-up storage-up reva-src phoenix-src ##@containers docker-compose up a
 	  -f deploy/idm/konnectd.yml \
 	  -f deploy/idm/openldap.yml \
 	  -f deploy/reva/authsvc.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  -f deploy/reva/ocdavsvc.yml \
 	  -f deploy/reva/ocssvc.yml \
 	  -f deploy/reva/reva-basic.yml \
@@ -157,6 +158,7 @@ down: stop-eos ##@containers docker-compose down all containers
 	  -f deploy/idm/konnectd.yml \
 	  -f deploy/idm/openldap.yml \
 	  -f deploy/reva/authsvc.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  -f deploy/reva/ocdavsvc.yml \
 	  -f deploy/reva/ocssvc.yml \
 	  -f deploy/reva/reva-basic.yml \
@@ -172,6 +174,7 @@ logs: ##@containers show and follow nexus container logs
 	  -f deploy/idm/konnectd.yml \
 	  -f deploy/idm/openldap.yml \
 	  -f deploy/reva/authsvc.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  -f deploy/reva/ocdavsvc.yml \
 	  -f deploy/reva/ocssvc.yml \
 	  -f deploy/reva/reva-basic.yml \
@@ -194,6 +197,7 @@ reva-up: reva-src ##@reva Up all reva based containers
 	docker-compose \
 	  -f deploy/network.yml \
 	  -f deploy/reva/authsvc.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  -f deploy/reva/ocdavsvc.yml \
 	  -f deploy/reva/ocssvc.yml \
 	  -f deploy/reva/reva-basic.yml \
@@ -204,6 +208,7 @@ reva-rebuild: reva-src ##@reva Rebuild and restart all reva based containers
 	docker-compose \
 	  -f deploy/network.yml \
 	  -f deploy/reva/authsvc.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  -f deploy/reva/ocdavsvc.yml \
 	  -f deploy/reva/ocssvc.yml \
 	  -f deploy/reva/reva-basic.yml \
@@ -234,6 +239,31 @@ reva-authsvc-down: ##@reva Down the authsvc
 	docker-compose \
 	  -f deploy/network.yml \
 	  -f deploy/reva/authsvc.yml \
+	  down
+
+# *** preferencessvc **********************************************************
+reva-preferencessvc-up: reva-src ##@reva Up the preferencessvc
+	docker-compose \
+	  -f deploy/network.yml \
+	  -f deploy/reva/preferencessvc.yml \
+	  up -d
+
+reva-preferencessvc-rebuild: reva-src ##@reva Rebuild and restart the preferencessvc
+	docker-compose \
+	  -f deploy/network.yml \
+	  -f deploy/reva/preferencessvc.yml \
+	  up -d --build --force-recreate preferencessvc
+
+reva-preferencessvc-restart: reva-src ##@reva Restart the preferencessvc
+	docker-compose \
+	  -f deploy/network.yml \
+	  -f deploy/reva/preferencessvc.yml \
+	  restart
+
+reva-preferencessvc-down: ##@reva Down the preferencessvc
+	docker-compose \
+	  -f deploy/network.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  down
 
 # *** ocdavsvc ****************************************************************
@@ -323,7 +353,7 @@ reva-storageprovidersvc-down: ##@reva Down the storageprovidersvc
 
 reva-src: build/reva/src ##@reva Get reva sources
 build/reva/src:
-	git clone git@github.com:owncloud/reva.git build/reva/src 
+	git clone git@github.com:cs3org/reva.git build/reva/src 
 	cd build/reva/src ; \
 	  git checkout $(REVA_BRANCH) ; \
 	  git remote add upstream git@github.com:cs3org/reva.git
@@ -455,6 +485,7 @@ clean-containers: ##@cleanup Stop and cleanup containers
 	  -f deploy/idm/konnectd.yml \
 	  -f deploy/idm/openldap.yml \
 	  -f deploy/reva/authsvc.yml \
+	  -f deploy/reva/preferencessvc.yml \
 	  -f deploy/reva/ocdavsvc.yml \
 	  -f deploy/reva/ocssvc.yml \
 	  -f deploy/reva/reva-basic.yml \

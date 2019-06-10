@@ -7,7 +7,7 @@ mode = "dev"
 level = "debug"
 
 [http]
-enabled_services = ["datasvc", "ocdavsvc", "ocssvc"]
+enabled_services = ["datasvc", "ocdavsvc", "ocssvc", "preferencessvc"]
 #enabled_middlewares = ["log", "trace", "auth", "cors"]
 enabled_middlewares = ["log", "trace", "auth"]
 network = "tcp"
@@ -42,6 +42,9 @@ header = "X-Access-Token"
 [http.middlewares.auth.token_writers.header]
 header = "X-Access-Token"
 
+[http.services.preferencessvc]
+prefix = ""
+preferencessvc = "127.0.0.1:9999"
 
 [http.services.ocdavsvc]
 prefix = ""
@@ -138,7 +141,7 @@ access_log = "stderr"
 #tls_enabled = true
 #tls_cert = "/etc/gridsecurity/host.cert"
 #tls_key = "/etc/gridsecurity/host.key"
-enabled_services = ["authsvc", "shareregistrysvc", "storageprovidersvc"]
+enabled_services = ["authsvc", "shareregistrysvc", "storageprovidersvc", "preferencessvc"]
 enabled_interceptors = ["auth", "prometheus", "log", "trace"]
 
 

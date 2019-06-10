@@ -53,7 +53,12 @@ owncloud.localhost:8444 {
 
 	tls /etc/ssl/owncloud.localhost.crt /etc/ssl/owncloud.localhost.key
 
-	proxy / ocdavsvc-basic:9998 {
+	proxy / ocdavsvc:9998 {
         	transparent
+	}
+
+	proxy /preferences preferencessvc:9998 {
+		without /preferences
+			transparent
 	}
 }
